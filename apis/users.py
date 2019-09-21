@@ -32,7 +32,7 @@ def registration(request):
         response = {
             "status_code": 200,
             "server_timestamp": datetime.datetime.now().isoformat(),
-            "new_user": user_data
+            "existing_user": user_data
         }
 
     else:
@@ -41,7 +41,7 @@ def registration(request):
         response = {
             "status_code": 200,
             "server_timestamp": datetime.datetime.now().isoformat(),
-            "existing_user": user_data
+            "new_user": user_data
         }
 
 
