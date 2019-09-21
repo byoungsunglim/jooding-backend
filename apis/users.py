@@ -24,7 +24,7 @@ def registration(request):
     query_ref = users_ref.where(u'email', u'==', user_data['email'])
 
     if query_ref is not None:
-        users_ref.document(query_ref.id).update(user_data)
+        users_ref.document(query_ref.get().id).update(user_data)
 
         response = {
             "status_code": 200,
