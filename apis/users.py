@@ -21,10 +21,13 @@ def registration(request):
     user_data = json.loads(request.body)
     users_ref = db.collection(u'users')
 
-    query_ref = users_ref.where(u'email', u'==', user_data['email']).limit(1)
+    query_ref = users_ref.where(u'email', u'==', user_data['email']).limit(1).stream()
 
     if query_ref is not None:
-        users_ref.document(query_ref.get().id).update(user_data)
+        for user in query_ref:
+            user_id = user.id
+            break
+        users_ref.document(user_id).update(user_data)
 
         response = {
             "status_code": 200,
