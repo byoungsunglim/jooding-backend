@@ -46,3 +46,31 @@ def registration(request):
 
     
     return HttpResponse(JSONRenderer().render(response), content_type="application/json")
+
+@api_view(["GET"])
+def profile(request, email):
+    users_ref = db.collection(u'users')
+    query_ref = users_ref.where(u'email', u'==', email).limit(1).stream()
+
+    if query_ref is not None:
+        for user in query_ref:
+            user_data = user.to_dict()
+            user_data['id'] = user.id
+            break
+
+        response = {
+            "status_code": 200,
+            "server_timestamp": datetime.datetime.now().isoformat(),
+            "user": user_data
+        }
+
+    else:
+        response = {
+            "status_code": 400,
+            "server_timestamp": datetime.datetime.now().isoformat(),
+            "error": "No user data"
+        }
+
+
+    
+    return HttpResponse(JSONRenderer().render(response), content_type="application/json")

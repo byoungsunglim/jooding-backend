@@ -16,9 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from apis.users import registration
+from apis.users import *
 
 urlpatterns = [
     url('admin/', admin.site.urls),
     url('users/registration', registration),
+    url('users/(?P<email>\d+)', profile),
 ]
