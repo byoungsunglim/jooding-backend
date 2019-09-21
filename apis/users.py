@@ -18,15 +18,29 @@ db = firestore.client()
 @api_view(["POST"])
 def registration(request):
     print(request.body)
-    new_user = json.loads(request.body)
+    user_data = json.loads(request.body)
     users_ref = db.collection(u'users')
 
-    users_ref.add(new_user)
+    query_ref = users_ref.where(u'email', u'==', user_data['email'])
 
-    response = {
-        "status_code": 200,
-        "server_timestamp": datetime.datetime.now().isoformat(),
-        "data": new_user
-    }
+    if query_ref is not None:
+        users_ref.document(query_ref.id).update(user_data)
 
+        response = {
+            "status_code": 200,
+            "server_timestamp": datetime.datetime.now().isoformat(),
+            "new_user": user_data
+        }
+
+    else:
+        users_ref.add(user_data)
+
+        response = {
+            "status_code": 200,
+            "server_timestamp": datetime.datetime.now().isoformat(),
+            "existing_user": user_data
+        }
+
+
+    
     return HttpResponse(JSONRenderer().render(response), content_type="application/json")
