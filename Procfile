@@ -1,0 +1,1 @@
+web: gunicorn jooding-backend.wsgi --timeout 60 --log-file -
