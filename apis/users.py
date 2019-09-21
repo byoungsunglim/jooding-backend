@@ -51,10 +51,7 @@ def profile(request, email):
     query_ref = users_ref.document(email).get()
 
     if query_ref.exists:
-        for user in query_ref:
-            user_data = user.to_dict()
-            user_data['id'] = user.id
-            break
+        user_data = query_ref.to_dict()
 
         response = {
             "status_code": 200,
