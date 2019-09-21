@@ -10,6 +10,8 @@ pylint = "*"
 django = "*"
 requests = "*"
 gunicorn = "*"
+firebase-admin = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.7"
