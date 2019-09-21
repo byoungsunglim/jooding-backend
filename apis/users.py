@@ -17,6 +17,7 @@ db = firestore.client()
 
 @api_view(["POST"])
 def registration(request):
+    print(request.body)
     new_user = json.loads(request.body)
     users_ref = db.collection(u'users')
 
