@@ -21,7 +21,7 @@ def registration(request):
     user_data = json.loads(request.body)
     users_ref = db.collection(u'users')
 
-    query_ref = users_ref.where(u'email', u'==', user_data['email'])
+    query_ref = users_ref.where(u'email', u'==', user_data['email']).limit(1)
 
     if query_ref is not None:
         users_ref.document(query_ref.get().id).update(user_data)
