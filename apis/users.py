@@ -21,7 +21,7 @@ def registration(request):
     new_user = json.loads(request.body)
     users_ref = db.collection(u'users')
 
-    city_ref.add(new_user)
+    users_ref.add(new_user)
 
     response = {
         "status_code": 200,
