@@ -20,13 +20,10 @@ def registration(request):
     user_data = json.loads(request.body)
     users_ref = db.collection(u'users')
 
-    query_ref = users_ref.where(u'email', u'==', user_data['email']).limit(1).stream()
+    query_ref = users_ref.document(user_data['email']).get()
 
-    if query_ref is not None:
-        for user in query_ref:
-            user_id = user.id
-            break
-        users_ref.document(user_id).update(user_data)
+    if query_ref.exists:
+        users_ref.document(user_data['email']).update(user_data)
 
         response = {
             "status_code": 200,
@@ -35,7 +32,7 @@ def registration(request):
         }
 
     else:
-        users_ref.add(user_data)
+        users_ref.document(user_data['email']).set(user_data)
 
         response = {
             "status_code": 200,
@@ -49,10 +46,11 @@ def registration(request):
 
 @api_view(["GET"])
 def profile(request, email):
+    user_data = {}
     users_ref = db.collection(u'users')
-    query_ref = users_ref.where(u'email', u'==', email).limit(1).stream()
+    query_ref = users_ref.document(email).get()
 
-    if query_ref is not None:
+    if query_ref.exists:
         for user in query_ref:
             user_data = user.to_dict()
             user_data['id'] = user.id
