@@ -45,7 +45,7 @@ def registration(request):
     return HttpResponse(JSONRenderer().render(response), content_type="application/json")
 
 @api_view(["GET"])
-def profile(request, email):
+def account(request, email):
     user_data = {}
     users_ref = db.collection(u'users')
     query_ref = users_ref.document(email).get()

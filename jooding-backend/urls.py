@@ -18,9 +18,11 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from apis.users import *
+from apis.questionnaires import *
 
 urlpatterns = [
     url('admin/', admin.site.urls),
     url('users/registration', registration),
-    path('users/<str:email>', profile, name="profile"),
+    path('users/<str:email>', account, name="account"),
+    path('questionnaires/', questionnaires, name="questionnaires"),
 ]
