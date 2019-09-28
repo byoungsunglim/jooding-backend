@@ -9,10 +9,11 @@ from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
-db = firestore.client()
+
 
 @api_view(["POST"])
 def registration(request):
+    db = firestore.client()
     user_data = json.loads(request.body)
     users_ref = db.collection(u'users')
 
@@ -42,6 +43,7 @@ def registration(request):
 
 @api_view(["GET"])
 def account(request, email):
+    db = firestore.client()
     user_data = {}
     users_ref = db.collection(u'users')
     query_ref = users_ref.document(email).get()

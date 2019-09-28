@@ -9,17 +9,16 @@ from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
-db = firestore.client()
 
 @api_view(["GET"])
 def questionnaires(request):
-    print("#")
-    docs = db.collection(u'questionnaires').stream()
+    db = firestore.client()
+    docs = db.collection(u'questionnaires').get()
 
     results = []
 
-    print(docs)
     for doc in docs:
+        results.append(doc.to_dict())
         print(u'{} => {}'.format(doc.id, doc.to_dict()))
 
     response = {
